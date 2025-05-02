@@ -16,7 +16,17 @@
     h1 {
       font-size: 3em;
       margin-top: 2em;
-      display: none;
+      display: inline-block;
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-weight: bold;
+    }
+    #message span {
+      opacity: 0;
+      transition: opacity 0.3s;
     }
     canvas {
       position: fixed;
@@ -30,7 +40,6 @@
       text-align: center;
       font-size: 1.2em;
       color: white;
-      font-family: sans-serif;
     }
   </style>
 </head>
@@ -40,7 +49,7 @@
   <h1 id="message"></h1>
 
   <script>
-    // Fireworks animation (simple particles)
+    // Fireworks code
     const canvas = document.getElementById("fireworks");
     const ctx = canvas.getContext("2d");
     let width, height;
@@ -137,23 +146,34 @@
 
     animate();
 
-    // Text animation after delay
+    // Message letter animation
     const message = "HAPPY BIRTHDAY AMMA";
     const messageElement = document.getElementById("message");
 
     function showMessage() {
-      let i = 0;
-      messageElement.style.display = "block";
+      messageElement.innerHTML = '';
+      for (let i = 0; i < message.length; i++) {
+        const span = document.createElement('span');
+        span.textContent = message[i];
+        messageElement.appendChild(span);
+      }
+
+      let index = 0;
+      const spans = messageElement.querySelectorAll('span');
       const interval = setInterval(() => {
-        messageElement.textContent += message[i];
-        i++;
-        if (i === message.length) clearInterval(interval);
+        if (index < spans.length) {
+          spans[index].style.opacity = 1;
+          index++;
+        } else {
+          clearInterval(interval);
+        }
       }, 200);
     }
 
-    setTimeout(showMessage, 5000); // wait for some fireworks before showing message
+    setTimeout(showMessage, 5000); // show message after 5 seconds
   </script>
 </body>
 </html>
+
 
 
